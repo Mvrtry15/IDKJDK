@@ -33,6 +33,17 @@ public class Vector extends Point {
             throw new IllegalArgumentException("Zero vector is not allowed");
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        return (obj instanceof Vector other) && super.equals(other);
+    }
+
+    @Override
+    public String toString() {
+        return "->" + super.toString();
+    }
+
     /**
      * Adds another vector to this vector
      *
@@ -72,18 +83,10 @@ public class Vector extends Point {
      * @return new vector resulting from the cross product
      */
     public Vector crossProduct(Vector other) {
-        double u1 = xyz.d1();
-        double u2 = xyz.d2();
-        double u3 = xyz.d3();
-
-        double v1 = other.xyz.d1();
-        double v2 = other.xyz.d2();
-        double v3 = other.xyz.d3();
-
         return new Vector(
-                u2 * v3 - u3 * v2,
-                u3 * v1 - u1 * v3,
-                u1 * v2 - u2 * v1
+                xyz.d2() * other.xyz.d3() - xyz.d3() * other.xyz.d2(),
+                xyz.d3() * other.xyz.d1() - xyz.d1() * other.xyz.d3(),
+                xyz.d1() * other.xyz.d2() - xyz.d2() * other.xyz.d1()
         );
     }
 

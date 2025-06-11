@@ -10,11 +10,11 @@ public class Ray {
     /**
      * The starting point of the ray
      */
-    private final Point p0;
+    public final Point p0;
     /**
      * The direction vector of the ray (always normalized)
      */
-    private final Vector dir;
+    public final Vector dir;
 
     /**
      * Constructor to initialize Ray based on starting point and direction vector
@@ -23,7 +23,20 @@ public class Ray {
      * @param dir the direction vector (will be normalized)
      */
     public Ray(Point p0, Vector dir) {
-        this.p0() = p0();
-        this.dir() = dir.normalize();
+        this.p0 = p0;
+        this.dir = dir.normalize();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        return (obj instanceof Ray other)
+                && this.p0.equals(other.p0)
+                && this.dir.equals(other.dir);
+    }
+
+    @Override
+    public String toString() {
+        return "Ray{" + "p0=" + p0 + ", dir=" + dir + '}';
     }
 }

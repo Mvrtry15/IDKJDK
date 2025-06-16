@@ -3,6 +3,7 @@ package geometries;
 import primitives.Point;
 import primitives.Ray;
 import primitives.Vector;
+import static primitives.Util.isZero;
 
 /**
  * Class Cylinder is the basic class representing a cylinder in Cartesian
@@ -30,6 +31,31 @@ public class Cylinder extends Tube {
 
     @Override
     public Vector getNormal(Point point) {
-        return null;
+        Point p0 = axisRay.p0;
+        Vector dir = axisRay.dir;
+
+        // Calculate the projection parameter t
+        double t;
+        if (point.equals(p0)) {
+            // Special case: point is exactly at the ray start (bottom center)
+            t = 0;
+        } else {
+            Vector pointToAxisStart = point.subtract(p0);
+            t = pointToAxisStart.dotProduct(dir);
+        }
+
+        // Check if point is on bottom base
+        if (isZero(t)) {
+            return dir.scale(-1); // Normal pointing down from bottom
+        }
+
+        // Check if point is on top base
+        if (isZero(t - height)) {
+            return dir; // Normal pointing up from top
+        }
+
+        // Point is on the side surface - use tube's logic
+        Point closestPointOnAxis = p0.add(dir.scale(t));
+        return point.subtract(closestPointOnAxis).normalize();
     }
 }

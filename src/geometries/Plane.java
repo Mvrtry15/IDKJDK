@@ -2,6 +2,7 @@ package geometries;
 
 import primitives.Point;
 import primitives.Vector;
+import static primitives.Util.isZero;
 
 /**
  * Class Plane is the basic class representing a plane in Cartesian
@@ -25,11 +26,16 @@ public class Plane extends Geometry {
      * @param p1 first point
      * @param p2 second point
      * @param p3 third point
+     * @throws IllegalArgumentException if points are collinear or identical
      */
     public Plane(Point p1, Point p2, Point p3) {
         q0 = p1;
+
         Vector v1 = p2.subtract(p1);
         Vector v2 = p3.subtract(p1);
+
+        // This will throw IllegalArgumentException if vectors are parallel (collinear points)
+        // or if any vector is zero (identical points)
         normal = v1.crossProduct(v2).normalize();
     }
 
